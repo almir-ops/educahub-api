@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main  # ou a branch que você preferir
+      - main  
 
 jobs:
   build:
@@ -20,7 +20,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t ${ { secrets.DOCKER_USERNAME } }/educahub-api:latest .
+      run: docker build -t $DOCKER_USERNAME/educahub-api:latest .
 
     - name: Push Docker image
-      run: docker push ${ { secrets.DOCKER_USERNAME } }/educahub-api:latest
+      run: docker push $DOCKER_USERNAME/educahub-api:latest
