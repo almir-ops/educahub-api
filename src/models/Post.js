@@ -1,7 +1,6 @@
-// src/models/Post.js
 
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/db'); // Importe a instância de sequelize corretamente
+const { sequelize } = require('../config/db');
 
 const Post = sequelize.define('Post', {
   title: {

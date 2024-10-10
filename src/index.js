@@ -1,25 +1,25 @@
-// src/index.js
 
 const express = require('express');
 const dotenv = require('dotenv');
 const postRoutes = require('./routes/postRoutes');
 const { connectDB } = require('./config/db');
 const Post = require('./models/Post');
+const swaggerSetup = require('./swagger');
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
 
-// Adiciona o prefixo '/api' para as rotas de post
 app.use('/api', postRoutes);
 
-// Conectar ao banco de dados e sincronizar o modelo
+swaggerSetup(app);
+
 connectDB()
   .then(() => {
-    Post.sync() // Cria a tabela 'Posts' se ela ainda não existir
+    Post.sync() 
       .then(() => {
         console.log('Post model synchronized successfully.');
         app.listen(PORT, () => {
