@@ -25,7 +25,7 @@ Antes de começar, você precisará ter instalado:
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/seu-usuario/educahub-api.git
+   git clone https://github.com/almir-ops/educahub-api.git
    cd educahub-api
    ```
 
