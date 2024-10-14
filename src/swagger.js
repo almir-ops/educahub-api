@@ -7,7 +7,7 @@ const swaggerDefinition = {
   info: {
     title: 'Educahub API',
     version: '1.0.0',
-    description: 'API for managing educational content and resources',
+    description: 'API para a plataforma EducaHub',
   },
   tags: [
     {
@@ -20,6 +20,10 @@ const swaggerDefinition = {
       url: 'http://localhost:3001',
       description: 'Development server',
     },
+    {
+      url: 'https://educahub-api.onrender.com/',
+      description: 'Production server',
+    },
   ],
 };
 
@@ -31,5 +35,5 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 
 module.exports = (app) => {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 };

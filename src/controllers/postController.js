@@ -1,4 +1,5 @@
 const Post = require('../models/Post');
+const Category = require('../models/Category');
 
 const getAllPosts = async (req, res) => {
   try {
@@ -24,14 +25,32 @@ const getPostById = async (req, res) => {
 
 const createPost = async (req, res) => {
   try {
-    const { title, content, author } = req.body;
-    const newPost = await Post.create({ title, content, author });
+    const { title, content, author, categoryId } = req.body;
+
+    // Verifique se todos os campos estão presentes
+    if (!title || !content || !author || !categoryId) {
+      return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+    }
+
+    // Verificar se a categoria existe
+    const category = await Category.findByPk(categoryId);
+    if (!category) {
+      return res.status(400).json({ error: 'Categoria não encontrada' });
+    }
+
+    // Criação do post com associação à categoria
+    const newPost = await Post.create({
+      title,
+      content,
+      author,
+      categoryId
+    });
+
     res.status(201).json(newPost);
   } catch (error) {
-    res.status(400).json({ error: 'Failed to create post' });
+    res.status(500).json({ error: 'Failed to create post', details: error.message });
   }
 };
-
 const updatePost = async (req, res) => {
   try {
     const { title, content, author } = req.body;

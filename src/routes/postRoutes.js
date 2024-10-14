@@ -12,6 +12,7 @@ const router = express.Router();
  *         - title
  *         - content
  *         - author
+ *         - categoryId
  *       properties:
  *         id:
  *           type: integer
@@ -25,11 +26,22 @@ const router = express.Router();
  *         author:
  *           type: string
  *           description: The author of the post
+ *         categoryId:
+ *           type: integer
+ *           description: The ID of the related category
  *       example:
  *         id: 1
  *         title: "My First Post"
  *         content: "This is the content of the post"
  *         author: "John Doe"
+ *         categoryId: 1
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Posts
+ *   description: API for managing blog posts
  */
 
 /**
@@ -81,6 +93,46 @@ const router = express.Router();
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Post'
+ *       404:
+ *         description: Post not found
+ *   put:
+ *     summary: Update a post
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The post ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Post'
+ *     responses:
+ *       200:
+ *         description: The updated post
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Post'
+ *       404:
+ *         description: Post not found
+ *   delete:
+ *     summary: Delete a post
+ *     tags: [Posts]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The post ID
+ *     responses:
+ *       200:
+ *         description: Post deleted
  *       404:
  *         description: Post not found
  */
