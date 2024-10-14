@@ -19,7 +19,7 @@ const Post = sequelize.define('Post', {
     type: DataTypes.STRING,
     allowNull: true, 
   },
-  categoryId: { // Adicionando o campo categoryId
+  categoryId: { 
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -29,7 +29,6 @@ const Post = sequelize.define('Post', {
   },
 });
 
-// Definindo as associações
 Post.belongsTo(Category, {
   foreignKey: {
     name: 'categoryId',

@@ -1,6 +1,5 @@
 const Category = require('../models/Category');
 
-// Get all categories
 const getAllCategories = async (req, res) => {
   try {
     const categories = await Category.findAll();
@@ -10,7 +9,6 @@ const getAllCategories = async (req, res) => {
   }
 };
 
-// Get a category by ID
 const getCategoryById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -26,7 +24,6 @@ const getCategoryById = async (req, res) => {
   }
 };
 
-// Create a new category
 const createCategory = async (req, res) => {
   try {
     const { name } = req.body;
@@ -42,7 +39,6 @@ const createCategory = async (req, res) => {
   }
 };
 
-// Update an existing category
 const updateCategory = async (req, res) => {
   try {
     const { id } = req.params;
@@ -66,22 +62,22 @@ const updateCategory = async (req, res) => {
   }
 };
 
-// Delete a category
 const deleteCategory = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const category = await Category.findByPk(id);
-
-    if (!category) {
-      return res.status(404).json({ message: 'Categoria não encontrada' });
+    try {
+      const { id } = req.params;
+      const category = await Category.findByPk(id);
+  
+      if (!category) {
+        return res.status(404).json({ message: 'Categoria não encontrada' });
+      }
+  
+      await category.destroy();
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ message: 'Erro ao deletar a categoria', error: error.message });
     }
-
-    await category.destroy();
-    res.status(200).json({ message: 'Categoria deletada com sucesso' });
-  } catch (error) {
-    res.status(500).json({ message: 'Erro ao deletar a categoria', error: error.message });
-  }
-};
+  };
+  
 
 module.exports = {
   getAllCategories,

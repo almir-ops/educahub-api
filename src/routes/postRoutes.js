@@ -30,10 +30,9 @@ const router = express.Router();
  *           type: integer
  *           description: The ID of the related category
  *       example:
- *         id: 1
- *         title: "My First Post"
- *         content: "This is the content of the post"
- *         author: "John Doe"
+ *         title: "Meu primeiro Post"
+ *         content: "Conteudo do primeiro Post"
+ *         author: "Almir Junior"
  *         categoryId: 1
  */
 

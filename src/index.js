@@ -29,7 +29,6 @@ const startServer = async () => {
   }
 };
 
-// Chame a função de inicialização do servidor
 startServer();
 
 module.exports = { app, startServer };

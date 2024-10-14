@@ -18,15 +18,14 @@ const router = express.Router();
  *           type: string
  *           description: The name of the category
  *       example:
- *         id: 1
- *         name: "Technology"
+ *         name: "Programação"
  */
 
 /**
  * @swagger
  * tags:
  *   name: Categories
- *   description: API for managing categories
+ *   description: Endpoints para manipular as categorias(matérias)
  */
 
 /**
