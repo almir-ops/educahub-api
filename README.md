@@ -10,8 +10,6 @@ A Educahub API é uma aplicação desenvolvida com Node.js, Express e Sequelize,
 4. [Uso das APIs](#uso-das-apis)
 5. [Executando os Testes](#executando-os-testes)
 6. [Deploy](#deploy)
-7. [Licença](#licença)
-8. [Contribuição](#contribuição)
 
 ## Pré-requisitos
 
