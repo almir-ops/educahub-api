@@ -1,5 +1,5 @@
 const request = require('supertest');
-const { app } = require('../src/index'); // Ajuste para usar a exportação correta
+const { app } = require('../src/index'); 
 const { sequelize } = require('../src/config/db');
 const Post = require('../src/models/Post');
 const Category = require('../src/models/Category');
@@ -16,7 +16,6 @@ describe('CRUD para /api/categories', () => {
   let categoryId;
 
   afterAll(async () => {
-    // Remove apenas a categoria criada neste teste
     if (categoryId) {
       await Category.destroy({ where: { id: categoryId } });
     }
@@ -59,7 +58,7 @@ describe('CRUD para /api/categories', () => {
       .send({ name: 'Inexistente' });
 
     expect(response.status).toBe(404);
-    expect(response.body).toHaveProperty('message', 'Categoria não encontrada'); // Ajustado aqui
+    expect(response.body).toHaveProperty('message', 'Categoria não encontrada'); 
   });
 
   it('deve deletar a categoria', async () => {
@@ -74,7 +73,7 @@ describe('CRUD para /api/categories', () => {
       .get(`/api/categories/${categoryId}`);
 
     expect(response.status).toBe(404);
-    expect(response.body).toHaveProperty('message', 'Categoria não encontrada'); // Ajustado aqui
+    expect(response.body).toHaveProperty('message', 'Categoria não encontrada'); 
   });
 
   
@@ -108,10 +107,10 @@ describe('CRUD para /api/posts', () => {
         title: 'Meu Primeiro Post',
         content: 'Conteúdo do meu primeiro post.',
         author: 'John Doe',
-        categoryId: categoryId, // Usando a categoria criada anteriormente
+        categoryId: categoryId, 
       });
 
-    postId = response.body.id; // Guarda o ID do post criado para os outros testes
+    postId = response.body.id; 
 
     expect(response.status).toBe(201);
     expect(response.body).toHaveProperty('id');
@@ -125,7 +124,7 @@ describe('CRUD para /api/posts', () => {
         title: 'Outro Post',
         content: 'Conteúdo do outro post.',
         author: 'John Doe',
-        categoryId: 9999, // ID inválido
+        categoryId: 9999, 
       });
 
     expect(response.status).toBe(400);
@@ -150,7 +149,7 @@ describe('CRUD para /api/posts', () => {
   it('deve retornar 400 se os campos obrigatórios não forem fornecidos', async () => {
     const response = await request(app)
       .post('/api/posts')
-      .send({}); // Campos obrigatórios ausentes
+      .send({}); 
 
     expect(response.status).toBe(400);
   });
@@ -162,7 +161,7 @@ describe('CRUD para /api/posts', () => {
         title: 'Post Inexistente',
         content: 'Conteúdo do post inexistente.',
         author: 'John Doe',
-        categoryId: 9999, // ID inválido
+        categoryId: 9999,
       });
 
     expect(response.status).toBe(400);
