@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const postRoutes = require('./routes/postRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const authRoutes = require('./routes/authRoutes');
 const { connectDB } = require('./config/db');
 const Post = require('./models/Post');
 const swaggerSetup = require('./swagger');
@@ -14,6 +15,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use('/api', postRoutes);
 app.use('/api', categoryRoutes);
+app.use('/api', authRoutes);
 
 swaggerSetup(app);
 

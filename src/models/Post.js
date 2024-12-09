@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/db');
 const Category = require('./Category');
+const User = require('./User'); // Importar o modelo User
 
 const Post = sequelize.define('Post', {
   title: {
@@ -17,9 +18,9 @@ const Post = sequelize.define('Post', {
   },
   image: {
     type: DataTypes.STRING,
-    allowNull: true, 
+    allowNull: true,
   },
-  categoryId: { 
+  categoryId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
@@ -27,8 +28,17 @@ const Post = sequelize.define('Post', {
       key: 'id',
     },
   },
+  userId: { // Adicionando o campo de referência ao User
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: User,
+      key: 'id',
+    },
+  },
 });
 
+// Relacionamentos
 Post.belongsTo(Category, {
   foreignKey: {
     name: 'categoryId',
@@ -37,6 +47,16 @@ Post.belongsTo(Category, {
 });
 Category.hasMany(Post, {
   foreignKey: 'categoryId',
+});
+
+Post.belongsTo(User, {
+  foreignKey: {
+    name: 'userId',
+    allowNull: false,
+  },
+});
+User.hasMany(Post, {
+  foreignKey: 'userId',
 });
 
 module.exports = Post;

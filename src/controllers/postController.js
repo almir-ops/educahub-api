@@ -1,9 +1,10 @@
 const Post = require('../models/Post');
 const Category = require('../models/Category');
+const User = require('../models/User'); // Importar o modelo User
 
 const getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.findAll();
+    const posts = await Post.findAll({ include: [Category, User] }); // Incluindo associações
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ error: 'Failed to retrieve posts' });
@@ -12,7 +13,7 @@ const getAllPosts = async (req, res) => {
 
 const getPostById = async (req, res) => {
   try {
-    const post = await Post.findByPk(req.params.id);
+    const post = await Post.findByPk(req.params.id, { include: [Category, User] }); // Incluindo associações
     if (post) {
       res.status(200).json(post);
     } else {
@@ -25,9 +26,9 @@ const getPostById = async (req, res) => {
 
 const createPost = async (req, res) => {
   try {
-    const { title, content, author, categoryId } = req.body;
+    const { title, content, author, categoryId, userId } = req.body;
 
-    if (!title || !content || !author || !categoryId) {
+    if (!title || !content || !author || !categoryId || !userId) {
       return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
     }
 
@@ -36,11 +37,17 @@ const createPost = async (req, res) => {
       return res.status(400).json({ error: 'Categoria não encontrada' });
     }
 
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(400).json({ error: 'Usuário não encontrado' });
+    }
+
     const newPost = await Post.create({
       title,
       content,
       author,
-      categoryId
+      categoryId,
+      userId, // Associar ao usuário
     });
 
     res.status(201).json(newPost);
@@ -51,7 +58,7 @@ const createPost = async (req, res) => {
 
 const updatePost = async (req, res) => {
   try {
-    const { title, content, author, categoryId } = req.body;
+    const { title, content, author, categoryId, userId } = req.body;
     const post = await Post.findByPk(req.params.id);
 
     if (!post) {
@@ -63,10 +70,16 @@ const updatePost = async (req, res) => {
       return res.status(400).json({ error: 'Categoria não encontrada' });
     }
 
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(400).json({ error: 'Usuário não encontrado' });
+    }
+
     post.title = title;
     post.content = content;
     post.author = author;
     post.categoryId = categoryId;
+    post.userId = userId; // Atualizar associação
     await post.save();
 
     res.status(200).json(post);
@@ -74,7 +87,6 @@ const updatePost = async (req, res) => {
     res.status(400).json({ error: 'Failed to update post' });
   }
 };
-
 
 const deletePost = async (req, res) => {
   try {
