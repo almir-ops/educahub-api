@@ -17,6 +17,7 @@
     "express": "^4.21.0",
     "mssql": "^11.0.1",
     "mysql2": "^3.11.3",
+    "pg": "^8.13.1",
     "sequelize": "^6.37.4",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
@@ -28,8 +29,7 @@
     "supertest": "^7.0.0"
   },
   "jest": {
-  "testEnvironment": "node",
-  "forceExit": true
-}
-
+    "testEnvironment": "node",
+    "forceExit": true
+  }
 }
