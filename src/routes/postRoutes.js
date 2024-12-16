@@ -1,6 +1,7 @@
 const express = require('express');
-const { getAllPosts, createPost, updatePost, deletePost, getPostById } = require('../controllers/postController');
+const { getAllPosts, createPost, updatePost, deletePost, getPostById, getUserPostsById } = require('../controllers/postController');
 const router = express.Router();
+const authMiddleware = require('../middlewares/authMiddleware');
 
 /**
  * @swagger
@@ -141,5 +142,6 @@ router.get('/posts/:id', getPostById);
 router.post('/posts', createPost);
 router.put('/posts/:id', updatePost);
 router.delete('/posts/:id', deletePost);
+router.get('/posts/user/:iduser', getUserPostsById);
 
 module.exports = router;

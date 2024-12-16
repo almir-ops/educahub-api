@@ -102,4 +102,44 @@ const deletePost = async (req, res) => {
   }
 };
 
-module.exports = { getAllPosts, getPostById, createPost, updatePost, deletePost };
+const getUserPostsById = async (req, res) => {
+  try {
+    console.log('Início do getUserPostsById'); // Log para indicar o início da função
+
+    const { iduser } = req.params; // Obtém o iduser dos parâmetros da rota
+    console.log('ID do usuário recebido na rota:', iduser); // Log para verificar o iduser
+
+    if (!iduser) {
+      console.log('Erro: iduser não fornecido');
+      return res.status(400).json({ error: 'ID do usuário não fornecido' });
+    }
+
+    console.log('Buscando posts do usuário no banco de dados...');
+    const posts = await Post.findAll({
+      where: { userId: iduser }, // Busca posts pelo ID do usuário fornecido
+      include: [
+        {
+          model: Category,
+          attributes: ['id', 'name'], // Apenas atributos relevantes da categoria
+        },
+      ],
+    });
+
+    console.log('Posts encontrados:', posts); // Log para verificar os posts recuperados
+
+    if (posts.length === 0) {
+      return res.status(404).json({ message: 'Nenhum post encontrado para este usuário' });
+    }
+
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error('Erro no getUserPostsById:', error); // Log do erro completo para debugging
+    res.status(500).json({
+      error: 'Falha ao recuperar os posts do usuário',
+      details: error.message,
+    });
+  }
+};
+
+
+module.exports = { getAllPosts, getPostById, createPost, updatePost, deletePost, getUserPostsById };
