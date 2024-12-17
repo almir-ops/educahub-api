@@ -4,12 +4,31 @@ const User = require('../models/User'); // Importar o modelo User
 
 const getAllPosts = async (req, res) => {
   try {
-    const posts = await Post.findAll({ include: [Category, User] }); // Incluindo associações
+    const { title, categoryId } = req.query; // Pegando o filtro de título e categoria da query string
+    
+    const filter = {}; // Inicializando o objeto de filtro
+    
+    if (title) {
+      filter.title = { [Sequelize.Op.iLike]: `%${title}%` }; // Filtro insensível a maiúsculas/minúsculas para o título
+    }
+
+    if (categoryId) {
+      // Verificando se categoryId é uma string com múltiplos valores separados por vírgula
+      const categoryIds = categoryId.split(',').map(id => parseInt(id.trim())); // Convertendo para um array de inteiros
+      filter.categoryId = { [Sequelize.Op.in]: categoryIds }; // Filtro de categoria para múltiplos IDs
+    }
+
+    const posts = await Post.findAll({
+      where: filter, // Aplicando o filtro na consulta
+      include: [Category, User] // Incluindo associações
+    });
+
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ error: 'Failed to retrieve posts' });
   }
 };
+
 
 const getPostById = async (req, res) => {
   try {
